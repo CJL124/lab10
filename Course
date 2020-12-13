@@ -1,0 +1,175 @@
+package lab10;
+
+import java.io.File;
+import java.util.Scanner;
+
+/**
+ * <p>Title: The Course Class</p>
+ * 
+ * <p>Description: This class models a Course and is capable of storing references 
+ * to Student objects. Students can be inserted in the course and the number of students
+ * in the course can be determined. The average for a given exam can be calculated, the 
+ * position of the Student with the lowest score for a given exam can be determined and 
+ * the students at a given position can be returned.</p>
+ *
+ * @author Colby Levitt & Dan Moran
+ *
+ */
+
+public class Course 
+{
+	//instance variables
+	private Student[] students;
+	private int numStudents;
+	
+	/**
+	 * Default constructor --
+	 * Creates storage for at most 30 students and sets the number of
+	 * students in the course to 0.
+	 */
+
+	public Course(){
+		students = new Student[30];
+		numStudents = 0;
+	}
+	/**
+	 * getNumStudents --
+	 * Returns the number of students currently in the course.
+	 * @return numStudents
+	 */
+
+	public int getNumStudents(){
+		return numStudents;
+	}
+	/**
+	 * insertStudent --
+	 * Adds a student to the course if there's room.  If the course is full, 
+	 * it doesn't do anything.
+	 * @param a reference to the student to be added 
+	 */
+
+	public void insertStudent(Student st) {
+		if (numStudents < students.length) {
+			students[numStudents] = st;
+			numStudents++;
+		}
+	}
+	/**
+	 * calcExamAverage --
+	 * Calculates the average for a particular exam.
+	 * @param the exam number to calculate the average for
+	 * @return the average for the specified exam
+	 */
+
+	public double calcExamAverage(int numExam) {
+		if (0 < numExam && numExam < 5) {
+			numExam = numExam - 1;
+			double sum = 0;
+			for (int i = 0; i < numStudents; i++) {
+				sum += students[i].getExams()[numExam];
+			}
+			return (sum/numStudents);
+		}
+		else
+			return -1.0;
+	}
+	/**
+	 * findIndexForStudentWithLowestExam --
+	 * Determines the index of the student with the lowest score for a 
+	 * particular exam.  
+	 * @param an integer representing the exam number to find the lowest 
+	 * exam score for 
+	 * @return the index of the student with the lowest exam score for the 
+	 * specified exam
+	 */
+
+	public int findIndexForStudentWithLowestExam(int numExam) {
+		double lowScore = 101.0;
+		int lowest = 0;
+		for (int i=0; i<numStudents; i++) {
+
+			if (lowScore > students[i].getExams()[numExam]) {
+				lowScore = students[i].getExams()[numExam];
+				lowest=i;
+			}
+		}
+		return lowest;
+	}
+	
+	/**
+	 * findStudent method --
+	 * locates the student in the array whose id matches the id of the student whose
+     * reference was passed to the method.
+	 * @return i if the ids student matches the id
+	 */
+
+	public int findStudent(Student student)
+	{
+		for(int i = 0; i < numStudents; i++) {
+			if(students[i].equals(student))
+				return i;
+		}
+		return -1;
+	}
+
+	/**
+	 * deleteStudent method --
+	 * locates the student by calling the findStudent method written in #15. 
+	 * Assuming the student is found, the last student in the array should be
+	 * moved to this location to remove the target student from the course 
+	 * @return true if the student was successfully deleted and false it the 
+	 * student was not successfully deleted (this will only happen if the student 
+	 * is not found).
+	 */
+
+	public void deleteStudent(Student student)
+	{
+		boolean found = false;
+		int i = 0;
+		while (i < numStudents && !found)
+		{
+			if (students[i].equals(student))
+				found = true;
+			else
+				i++;
+		}
+		if (found)
+		{
+			for (int j=(numStudents-1); j>0; j--)
+				students[j-1] = students[j];
+			numStudents--;
+		}
+	}
+
+	/**
+	 * deleteStudentByShifting method --
+	 * accepts a reference to a Student object. The method should locate the student
+	 * by calling the findStudent method written in #15. Assuming the student is found
+	 * at posToRemove, the students to the right should be shifted left to remove the 
+	 * target student from the course. For example, if there are 12 students in the course
+	 * and the student to be removed is at position 3, move the students from positions
+	 * 4 - 11 left to positions 3 – 10 which deletes the student at position 3. Don’t forget
+	 * to decrement numStudents accordingly. This method should return true if the student
+	 * was successfully deleted and false it the student was not successfully deleted 
+	 * (this will only happen if the student is not found).
+	 */
+	
+	public void deleteStudentByShifting()
+	{
+		
+	}
+	
+	/**
+	 * toString method -- 
+	 * Returns a String representing the state of the Course.
+	 * @return a reference to a string containing all the students in
+	 * the course
+	 */
+
+	public String toString() {
+		String str = new String();
+		for (int i=0; i<numStudents; i++)
+			str = str + "Student " + (i + 1) + ": " + students[i].toString() + "\n";
+		return str;
+	}	
+}
