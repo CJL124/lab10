@@ -1,0 +1,74 @@
+package lab10;
+
+/**
+ * <p>Title: The Student Class</p>
+ *
+ * <p>Description: This class models a student object with an id, 
+ * first name, last name, and exams.  In addition to setting and 
+ * retrieving these values, it can calculate the average.</p>
+ *
+ * @author CSC 120 Instructor
+ */
+
+import java.io.*;
+import java.util.*;
+
+public class Lab11App {
+
+	public static void main (String [ ] args) throws IOException {
+
+		Course theCourse = new Course();
+		Scanner fileScan = new Scanner(new File("courseData.txt"));
+
+		String studentIdN;
+		String sFirstName;
+		String sLastName;
+		double[] examGrades;
+
+		while(fileScan.hasNext()) {
+			studentIdN = fileScan.next();
+			sFirstName = fileScan.next();
+			sLastName = fileScan.next();
+			examGrades = new double[4];
+
+			for(int i = 0; i < 4; i++) {
+				examGrades[i] = fileScan.nextDouble();
+			}
+				Student student = new Student(studentIdN, sFirstName, sLastName, examGrades);
+				theCourse.insertStudent(student);
+			}
+
+			fileScan.close();
+			
+			System.out.println(theCourse);
+			
+			Student student1 = new Student();	
+			student1.setId("123-45-6789");
+			System.out.println("The position of the student with the ID number 123-45-6789 in the"
+			+ " array is: "	+ theCourse.findStudent(student1));
+					
+			Student student2 = new Student();	
+			student2.setId("765-43-2100");
+			System.out.println("The position of the student with the ID number 765-43-2100 in the"
+					+ " array is: "	+ theCourse.findStudent(student2));
+
+			Student student3 = new Student();	
+			student3.setId("999-99-9999");
+			System.out.println("The position of the student with the ID number 999-99-9999 in the"
+					+ " array is: "	+ theCourse.findStudent(student3));
+
+			Student student4 = new Student();	
+			student4.setId("666-66-6666");
+			System.out.println("The position of the student with the ID number 666-66-6666 in the"
+					+ " array is: "	+ theCourse.findStudent(student4));
+			
+			Student student = new Student();
+			student.setId("666-66-6666");
+			
+			System.out.println(theCourse.deleteStudent(student));
+			
+			
+	}
+}
+			
+			
